@@ -3,13 +3,15 @@ apply plugin: "java"
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
 
 project.ext.mainClassName = "technology.rocketjump.mountaincore.launcher.DesktopLauncher"
-project.ext.assetsDir = new File("../core/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
     main = project.mainClassName
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
-    workingDir = project.assetsDir
+    // The game resolves "assets/..." against the working directory (see readme.md),
+    // so run with core/ as the working dir. project.file() keeps this correct
+    // no matter where Gradle is invoked from.
+    workingDir = project.file("../core")
     ignoreExitValue = true
 }
 

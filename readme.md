@@ -29,6 +29,26 @@ This process has already been run and this repository contains the output files,
 
 `DesktopLauncher` is the game launcher. Run this with `./core` as the working directory.
 
+### Running a dev build
+
+From the repository root:
+
+```
+gradlew.bat desktop:run        (Windows)
+./gradlew desktop:run          (Mac/Linux)
+```
+
+This is the supported way to launch from source: Gradle puts the LWJGL
+natives on the classpath and the `run` task sets the working directory to
+`./core` (where `assets/` lives).
+
+Do NOT run `desktop/build/libs/desktop-1.0.0.jar` directly — it is a thin jar
+with no native libraries, and launching it fails with
+`UnsatisfiedLinkError: Failed to locate library: lwjgl.dll`.
+The runnable fat jar built by `gradlew build` is
+`desktop/build/libs/mountaincore.jar`, which must be launched with `./core`
+as the working directory.
+
 ### Building for release
 
 To package for release, you need to download AdoptOpen JDK releases from https://adoptopenjdk.net/releases.html for the packing process (packr.jar) to use. You will likely need to change the packr config files from OpenJDK17U-jdk_x64_windows_hotspot_17.0.4_8 to whatever version you have downloaded.
